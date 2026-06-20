@@ -111,6 +111,30 @@
         }
         .footer a { color: #667eea; text-decoration: none; font-weight: 500; }
         
+        /* Download Counter */
+        .download-counter {
+            text-align: center;
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .download-counter .counter-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .download-counter .counter-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
         /* Credits styling */
         .credits {
             text-align: right;
@@ -176,6 +200,7 @@
             header h1 { font-size: 1.6rem; }
             .logo { width: 80px; height: 80px; }
             .credits { font-size: 0.65rem; }
+            .download-counter .counter-number { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -193,7 +218,7 @@
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" onclick="openPDF('BSC.pdf', 'Bachelor of Science')">👁 View</button>
-                    <a href="pdfs/BSC.pdf" download class="btn btn-secondary">⬇ Download</a>
+                    <a href="pdfs/BSC.pdf" download class="btn btn-secondary" onclick="trackDownload()">⬇ Download</a>
                 </div>
             </div>
             <div class="course-card">
@@ -202,7 +227,7 @@
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" onclick="openPDF('BCOM.pdf', 'Bachelor of Commerce')">👁 View</button>
-                    <a href="pdfs/BCOM.pdf" download class="btn btn-secondary">⬇ Download</a>
+                    <a href="pdfs/BCOM.pdf" download class="btn btn-secondary" onclick="trackDownload()">⬇ Download</a>
                 </div>
             </div>
             <div class="course-card">
@@ -211,18 +236,28 @@
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" onclick="openPDF('BA.pdf', 'Bachelor of Arts')">👁 View</button>
-                    <a href="pdfs/BA.pdf" download class="btn btn-secondary">⬇ Download</a>
+                    <a href="pdfs/BA.pdf" download class="btn btn-secondary" onclick="trackDownload()">⬇ Download</a>
                 </div>
             </div>
         </div>
+        
+        <!-- Download Counter -->
+        <div style="text-align: center;">
+            <div class="download-counter">
+                <span class="counter-number" id="downloadCount">0</span>
+                <span class="counter-label">Total Downloads</span>
+            </div>
+        </div>
+        
         <div class="footer">
             <p>Carmel College for Women, Nuvem - Goa</p>
         </div>
         <div class="credits">
-            Designed by Dr. Manjunath T. Nayak<br>
+            Designed by Dr. Manjunath Nayak<br>
             Assistant Professor, Department of Physics
         </div>
     </div>
+    
     <div class="modal" id="pdfModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -234,24 +269,59 @@
             </div>
         </div>
     </div>
+    
     <script>
+        // CountAPI configuration - free, no signup needed
+        const NAMESPACE = 'carmelcollege-timetable';
+        const KEY = 'downloads';
+        
+        // Fetch current count on page load
+        async function fetchCount() {
+            try {
+                const response = await fetch(`https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`);
+                const data = await response.json();
+                document.getElementById('downloadCount').textContent = data.value.toLocaleString();
+            } catch (error) {
+                console.log('Counter not initialized yet');
+                document.getElementById('downloadCount').textContent = '0';
+            }
+        }
+        
+        // Increment count when any PDF is downloaded
+        async function trackDownload() {
+            try {
+                const response = await fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`);
+                const data = await response.json();
+                document.getElementById('downloadCount').textContent = data.value.toLocaleString();
+            } catch (error) {
+                console.error('Failed to track download:', error);
+            }
+        }
+        
+        // PDF Modal functions
         function openPDF(filename, title) {
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('pdfFrame').src = 'pdfs/' + filename;
             document.getElementById('pdfModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
+        
         function closePDF() {
             document.getElementById('pdfModal').classList.remove('active');
             document.getElementById('pdfFrame').src = '';
             document.body.style.overflow = 'auto';
         }
+        
         document.getElementById('pdfModal').addEventListener('click', function(e) {
             if (e.target === this) closePDF();
         });
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closePDF();
         });
+        
+        // Load count when page opens
+        fetchCount();
     </script>
 </body>
 </html>
