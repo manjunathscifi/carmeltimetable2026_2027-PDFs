@@ -70,27 +70,10 @@
             color: white;
             font-size: 1.2rem;
             font-weight: 700;
-            overflow: hidden;
         }
-        .course-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .course-icon-text {
-            width: 80px; height: 80px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-        .course-card:nth-child(1) .course-icon-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .course-card:nth-child(2) .course-icon-text { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .course-card:nth-child(3) .course-icon-text { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .course-card:nth-child(1) .course-icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .course-card:nth-child(2) .course-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .course-card:nth-child(3) .course-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
         .course-card h3 { font-size: 1.35rem; font-weight: 600; color: #1a1a2e; margin-bottom: 6px; }
         .course-card .file-type { color: #9ca3af; font-size: 0.875rem; margin-bottom: 20px; font-weight: 500; }
         .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -192,9 +175,7 @@
         </header>
         <div class="courses-grid">
             <div class="course-card">
-                <div class="course-icon">
-                    <img src="logo.png" alt="BSC">
-                </div>
+                <div class="course-icon">BSC</div>
                 <h3>Bachelor of Science</h3>
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
@@ -203,9 +184,7 @@
                 </div>
             </div>
             <div class="course-card">
-                <div class="course-icon">
-                    <img src="logo.png" alt="BCOM">
-                </div>
+                <div class="course-icon">BCOM</div>
                 <h3>Bachelor of Commerce</h3>
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
@@ -214,9 +193,7 @@
                 </div>
             </div>
             <div class="course-card">
-                <div class="course-icon">
-                    <img src="logo.png" alt="BA">
-                </div>
+                <div class="course-icon">BA</div>
                 <h3>Bachelor of Arts</h3>
                 <div class="file-type">PDF Document</div>
                 <div class="btn-group">
